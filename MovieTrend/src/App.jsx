@@ -1,6 +1,7 @@
 import React from "react";
 import Search from "./components/Search";
 import Trending from "./components/Trending";
+import MovieList from "./components/MovieList";
 import { useState, useEffect } from "react";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
@@ -25,6 +26,7 @@ const App = () => {
       const response = await fetch(endpoint, API_OPTIONS);
       const data = await response.json();
       setMovieData(data);
+      console.log(data);
     } catch (error) {
       console.error(`Error fetching movies: ${error}`);
       setError(`Error fetching movies: ${error}`);
@@ -48,6 +50,8 @@ const App = () => {
         <Search search={search} setSearch={setSearch} />
 
         <Trending movieData={movieData} />
+
+        <MovieList movieData={movieData} />
       </div>
       <h2>{error}</h2>
     </main>

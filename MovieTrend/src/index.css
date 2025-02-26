@@ -113,11 +113,11 @@
     }
 
     & .content {
-      @apply mt-2 flex flex-row items-center flex-wrap gap-2;
+      @apply mt-2 flex flex-row items-center flex-wrap gap-6;
     }
 
     & .rating {
-      @apply flex flex-row items-center gap-1;
+      @apply flex flex-row items-center gap-1 mt-2;
     }
 
     & .rating img {
