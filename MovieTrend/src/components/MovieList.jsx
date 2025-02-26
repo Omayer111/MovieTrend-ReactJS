@@ -18,7 +18,7 @@ const MovieList = ({ movieData }) => {
             <div className="content">
               <div className="rating">
                 <img src="../public/star.svg" alt="star" />
-                <p>{movie.vote_average.toFixed(2)}</p>
+                <p>{(Math.round(movie.vote_average * 2) / 2).toFixed(1)}</p>
               </div>
 
               <p className="content lang">{movie.original_language}</p>
