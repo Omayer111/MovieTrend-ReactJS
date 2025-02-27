@@ -1,6 +1,8 @@
 import React from "react";
+import { useState } from "react";
 
 const Search = ({ search, setSearch }) => {
+  // const [localSearch, setLocalSearch] = useState("");
   return (
     <>
       <div className="search">

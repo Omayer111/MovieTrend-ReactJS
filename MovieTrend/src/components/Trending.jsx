@@ -2,7 +2,7 @@ import React from "react";
 
 const Trending = ({ movieData }) => {
   if (!movieData || !movieData.results || movieData.results.length === 0) {
-    return <p>No trending movies found.</p>;
+    return <p className="header">No trending movies found.</p>;
   }
 
   return (

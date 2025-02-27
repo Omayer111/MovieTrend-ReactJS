@@ -2,7 +2,9 @@ import React from "react";
 import Search from "./components/Search";
 import Trending from "./components/Trending";
 import MovieList from "./components/MovieList";
+
 import { useState, useEffect } from "react";
+import { useDebounce } from "react-use";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -20,8 +22,21 @@ const App = () => {
   const [error, setError] = useState("");
   const [movieData, setMovieData] = useState([]);
 
-  const fetchTrending = async () => {
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useDebounce(() => setDebouncedSearch(search), 500, [search]);
+
+  const fetchTrending = async (search = "") => {
     try {
+      if (search) {
+        const endpoint = `${API_BASE_URL}/search/movie?query=${search}`;
+        const response = await fetch(endpoint, API_OPTIONS);
+        const data = await response.json();
+        setMovieData(data);
+        console.log(data);
+        return;
+      }
+
       const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
       const response = await fetch(endpoint, API_OPTIONS);
       const data = await response.json();
@@ -34,8 +49,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchTrending();
-  }, []);
+    fetchTrending(debouncedSearch);
+  }, [debouncedSearch]);
 
   return (
     <main>
@@ -44,14 +59,18 @@ const App = () => {
         <header>
           <img src="../public/hero-img.png" alt="Hero Logo" />
           <h1>
-            Find <span className="text-gradient">Movies</span> That Are Trending
+            Find <span className="text-gradient">Movies</span> To Watch
           </h1>
         </header>
         <Search search={search} setSearch={setSearch} />
-
-        <Trending movieData={movieData} />
-
-        <MovieList movieData={movieData} />
+        {search ? (
+          <MovieList movieData={movieData} />
+        ) : (
+          <>
+            <Trending movieData={movieData} />{" "}
+            <MovieList movieData={movieData} />
+          </>
+        )}
       </div>
       <h2>{error}</h2>
     </main>
