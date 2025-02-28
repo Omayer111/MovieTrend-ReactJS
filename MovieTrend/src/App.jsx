@@ -2,6 +2,8 @@ import React from "react";
 import Search from "./components/Search";
 import Trending from "./components/Trending";
 import MovieList from "./components/MovieList";
+import { Client } from "appwrite";
+import { updateSearchCount } from "../src/appwrite/appwrite";
 
 import { useState, useEffect } from "react";
 import { useDebounce } from "react-use";
@@ -24,7 +26,7 @@ const App = () => {
 
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  useDebounce(() => setDebouncedSearch(search), 500, [search]);
+  useDebounce(() => setDebouncedSearch(search), 1000, [search]);
 
   const fetchTrending = async (search = "") => {
     try {
@@ -34,6 +36,9 @@ const App = () => {
         const data = await response.json();
         setMovieData(data);
         console.log(data);
+        if (data.results.length > 0) {
+          await updateSearchCount(search, data.results[0]);
+        }
         return;
       }
 
