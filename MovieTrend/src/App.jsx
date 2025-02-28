@@ -3,7 +3,7 @@ import Search from "./components/Search";
 import Trending from "./components/Trending";
 import MovieList from "./components/MovieList";
 import { Client } from "appwrite";
-import { updateSearchCount } from "../src/appwrite/appwrite";
+import { updateSearchCount, getTrending } from "../src/appwrite/appwrite";
 
 import { useState, useEffect } from "react";
 import { useDebounce } from "react-use";
@@ -23,6 +23,7 @@ const App = () => {
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
   const [movieData, setMovieData] = useState([]);
+  const [trending, setTrending] = useState([]);
 
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
@@ -57,6 +58,15 @@ const App = () => {
     fetchTrending(debouncedSearch);
   }, [debouncedSearch]);
 
+  useEffect(() => {
+    const fetchTrendingData = async () => {
+      const trendingData = await getTrending(); // Assuming this function returns a Promise
+      setTrending(trendingData); // Set the actual data, not a Promise
+    };
+
+    fetchTrendingData();
+  }, []);
+
   return (
     <main>
       <div className="pattern" />
@@ -72,7 +82,7 @@ const App = () => {
           <MovieList movieData={movieData} />
         ) : (
           <>
-            <Trending movieData={movieData} />{" "}
+            <Trending trending={trending} />
             <MovieList movieData={movieData} />
           </>
         )}
