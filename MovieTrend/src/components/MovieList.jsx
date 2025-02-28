@@ -30,6 +30,9 @@ const MovieList = ({ movieData }) => {
                 {movie.release_date
                   ? movie.release_date.substr(0, 4)
                   : "Not available"}
+                <div className="h-7 w-7 flex  items-center justify-center  bg-yellow-300 rounded-full">
+                  <p className="text-black text-3xl m-3">+</p>
+                </div>
               </p>
             </div>
           </li>

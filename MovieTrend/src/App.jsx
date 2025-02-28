@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from "./components/navBar";
 import Search from "./components/Search";
 import Trending from "./components/Trending";
 import MovieList from "./components/MovieList";
@@ -69,13 +70,12 @@ const App = () => {
 
   return (
     <main>
-      <div className="pattern" />
+      <Navbar />
       <div className="wrapper">
         <header>
-          <img src="../public/hero-img.png" alt="Hero Logo" />
-          <h1>
+          <p className="mt-10 text-amber-50 text-4xl font-bold text-center">
             Find <span className="text-gradient">Movies</span> To Watch
-          </h1>
+          </p>
         </header>
         <Search search={search} setSearch={setSearch} />
         {search ? (
