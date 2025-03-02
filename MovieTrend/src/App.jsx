@@ -4,6 +4,7 @@ import Home from "./Auth/Home";
 import Login from "./Auth/Login";
 import Registration from "./Auth/Registration";
 import Navbar from "./components/Navbar";
+import UserPanel from "./Auth/UserPanel";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
+          <Route path="/user-panel" element={<UserPanel />} />
         </Routes>
       </Router>
     </>
