@@ -1,50 +1,43 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSignedin, setIsSignedin] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-dark-100 shadow-lg z-50">
       <div className="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
         {/* Logo */}
         <a
-          href="/"
-          className="text-white text-2xl font-bold text-gradient-header"
+          onClick={() => navigate("/")}
+          className="text-white text-2xl  font-bold text-gradient-header cursor-pointer"
         >
           MovieTrend
         </a>
 
         {/* Desktop Navigation */}
+        {/* Desktop Navigation */}
         <ul className="hidden md:flex space-x-6">
-          <li>
-            <a href="/" className="text-light-100 hover:text-white transition">
-              Home
-            </a>
-          </li>
-          <li>
-            <a
-              href="/trending"
-              className="text-light-100 hover:text-white transition"
-            >
-              Trending
-            </a>
-          </li>
-          <li>
-            <a
-              href="/movies"
-              className="text-light-100 hover:text-white transition"
-            >
-              Movies
-            </a>
-          </li>
-          <li>
-            <a
-              href="/contact"
-              className="text-light-100 hover:text-white transition"
-            >
-              Contact
-            </a>
-          </li>
+          {isSignedin ? (
+            <li className="h-8 w-8 rounded-full bg-amber-50"></li>
+          ) : (
+            <>
+              <li
+                className="text-white text-[20px] cursor-pointer"
+                onClick={() => navigate("/login")} // Navigate to login page
+              >
+                Sign In
+              </li>
+              <li
+                className="text-white text-[20px] cursor-pointer"
+                onClick={() => navigate("/register")} // Navigate to register page
+              >
+                Register
+              </li>
+            </>
+          )}
         </ul>
 
         {/* Mobile Menu Button */}
@@ -76,39 +69,19 @@ const Navbar = () => {
             : "opacity-0 scale-95 pointer-events-none"
         }`}
       >
-        <ul className="space-y-4 text-center">
-          <li>
-            <a
-              href="/"
-              className="text-light-100 hover:text-white transition block"
-            >
-              Home
-            </a>
-          </li>
-          <li>
-            <a
-              href="/trending"
-              className="text-light-100 hover:text-white transition block"
-            >
-              Trending
-            </a>
-          </li>
-          <li>
-            <a
-              href="/movies"
-              className="text-light-100 hover:text-white transition block"
-            >
-              Movies
-            </a>
-          </li>
-          <li>
-            <a
-              href="/contact"
-              className="text-light-100 hover:text-white transition block"
-            >
-              Contact
-            </a>
-          </li>
+        <ul className="space-y-4 flex flex-col items-center">
+          {isSignedin ? (
+            <li className="h-8 w-8 rounded-full bg-amber-50"></li>
+          ) : (
+            <>
+              <li className="text-white text-[20px]  cursor-pointer ">
+                sign in
+              </li>
+              <li className="text-white text-[20px]  cursor-pointer">
+                register
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </nav>
