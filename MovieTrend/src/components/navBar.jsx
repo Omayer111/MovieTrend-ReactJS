@@ -74,10 +74,10 @@ const Navbar = () => {
             <li className="h-8 w-8 rounded-full bg-amber-50"></li>
           ) : (
             <>
-              <li className="text-white text-[20px]  cursor-pointer ">
+              <li className="text-white text-[20px]  cursor-pointer " onClick={() => navigate("/login")}>
                 sign in
               </li>
-              <li className="text-white text-[20px]  cursor-pointer">
+              <li className="text-white text-[20px]  cursor-pointer" onClick={() => navigate("/register")}>
                 register
               </li>
             </>
