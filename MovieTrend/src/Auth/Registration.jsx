@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 const Register = () => {
   const {
@@ -52,7 +53,7 @@ const Register = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 p-3 text-white rounded hover:bg-blue-700 transition"
+            className="w-full bg-blue-600 p-3 text-white rounded hover:bg-blue-700 transition cursor-pointer "
           >
             Register
           </button>
