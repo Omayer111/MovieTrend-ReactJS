@@ -25,6 +25,7 @@ const Login = () => {
   const [notification, setNotification] = useState(null);
   const navigate = useNavigate();
 
+
   const onSubmit = async (data) => {
     try {
       const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
@@ -35,7 +36,7 @@ const Login = () => {
       if (result.documents.length > 0) {
         // If the user exists, log success message
         console.log("Login successful, welcome!");
-        login();
+        login(result.documents[0].email);
         navigate("/user-panel");
       } else {
         // If the user doesn't exist, show error notification

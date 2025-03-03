@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaUserAstronaut } from "react-icons/fa";
 
 import {useAuth} from '../context/AuthProvider';
 
@@ -24,9 +25,12 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         {/* Desktop Navigation */}
         <ul className="hidden md:flex space-x-6">
+
           {isAuthenticated ? (
+            <>
+            <li><FaUserAstronaut className="text-white h-10 w-10 cursor-pointer" onClick={() => navigate("/user-panel")} /></li>
            <li
-           className="text-white text-[20px] cursor-pointer"
+           className="text-white text-[20px] cursor-pointer mt-1.5"
            onClick={()=>{logout();
             navigate("/login");
            }} // Navigate to login page
@@ -34,6 +38,8 @@ const Navbar = () => {
          >
            Logout
          </li>
+         
+         </>
           ) : (
             <>
               <li
