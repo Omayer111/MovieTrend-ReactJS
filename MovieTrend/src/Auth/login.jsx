@@ -15,7 +15,8 @@ const client = new Client()
 const database = new Databases(client);
 
 const Login = () => {
-  const {login} = useAuth();
+  const {login, isAuthenticated } = useAuth();
+  console.log(isAuthenticated);
   const {
     register,
     handleSubmit,

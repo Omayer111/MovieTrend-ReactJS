@@ -5,17 +5,29 @@ import Login from "./Auth/Login";
 import Registration from "./Auth/Registration";
 import Navbar from "./components/Navbar";
 import UserPanel from "./Auth/UserPanel";
+import ProtectedRoute from "./context/ProtectedRoute";
+import { useAuth } from "./context/AuthProvider";
+import { Navigate } from "react-router-dom";
 
 const App = () => {
+  const { isAuthenticated } = useAuth();
+  console.log(isAuthenticated
+  );
   return (
     <>
       <Router>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Registration />} />
-          <Route path="/user-panel" element={<UserPanel />} />
+
+          
+          <Route path="/login" element={isAuthenticated ? <Navigate to="/user-panel" replace /> : <Login />} />
+
+          <Route path="/register" element={isAuthenticated ? <Navigate to="/user-panel" replace /> : <Registration />} />
+          
+          <Route path="/user-panel" element={<ProtectedRoute>
+            <UserPanel />
+          </ProtectedRoute>} />
         </Routes>
       </Router>
     </>
