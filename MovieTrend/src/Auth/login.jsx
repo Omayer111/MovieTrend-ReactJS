@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Client, Databases, Query } from "appwrite";
 import { useNavigate } from "react-router-dom";
+import {useAuth} from "../context/AuthProvider";
 
 const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
@@ -14,6 +15,7 @@ const client = new Client()
 const database = new Databases(client);
 
 const Login = () => {
+  const {login} = useAuth();
   const {
     register,
     handleSubmit,
@@ -32,6 +34,7 @@ const Login = () => {
       if (result.documents.length > 0) {
         // If the user exists, log success message
         console.log("Login successful, welcome!");
+        login();
         navigate("/user-panel");
       } else {
         // If the user doesn't exist, show error notification

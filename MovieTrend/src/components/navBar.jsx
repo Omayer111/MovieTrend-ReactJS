@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import {useAuth} from '../context/AuthProvider';
+
+
 const Navbar = () => {
+  const {isAuthenticated,logout} = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSignedin, setIsSignedin] = useState(false);
   const navigate = useNavigate();
@@ -20,8 +24,16 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         {/* Desktop Navigation */}
         <ul className="hidden md:flex space-x-6">
-          {isSignedin ? (
-            <li className="h-8 w-8 rounded-full bg-amber-50"></li>
+          {isAuthenticated ? (
+           <li
+           className="text-white text-[20px] cursor-pointer"
+           onClick={()=>{logout();
+            navigate("/login");
+           }} // Navigate to login page
+            // Navigate to login page
+         >
+           Logout
+         </li>
           ) : (
             <>
               <li
