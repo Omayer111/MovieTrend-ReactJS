@@ -9,11 +9,24 @@ const MovieList = ({ movieData }) => {
 
   const [starMovie, setStarMovie] = useState([]);
 
-  const [favorites, setFavorites] = useState([]);
+  // const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    setFavorites(getFavorites()), [favorites];});
+    const fetchFavorites = async () => {
+      if (isAuthenticated) {
+        const favs = await getFavorites();
+        const favoriteMovieIds = favs.map(movie => movie.movie_id); // Extracting only the movie IDs
+        setStarMovie(favoriteMovieIds);
+      } else {
+        setStarMovie([]); // Reset if user logs out
+      }
+    };
+  
+    fetchFavorites();
+  }, [user, isAuthenticated]);  // ✅ Re-fetch when user changes
+  
 
+  
 
   const [notification, setNotification] = useState(null);
 
@@ -38,6 +51,11 @@ const MovieList = ({ movieData }) => {
 
       // const favs = getFavorites();
       // setFavorites((prev)=>[...prev,favs.movie_id]);
+      // const favs = await getFavorites();
+      // setFavorites(favs);
+      // console.log(favs);
+
+      setStarMovie((prev) => [...prev, movie.id]);
 
       // change here
     }
