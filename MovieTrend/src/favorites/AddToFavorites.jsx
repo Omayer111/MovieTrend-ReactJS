@@ -40,3 +40,22 @@ export const getFavorites = async () => {
         console.error(`Error fetching movies: ${error}`);
     }
 };
+
+
+export const removeFromFavorites = async (movieId) => {
+  try {
+    const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
+      Query.equal("email", localStorage.getItem("user")),
+    ]);
+    console.log(result.documents);
+
+    result.documents.forEach(async (movie_object) => {
+      if(movie_object.movie_id === movieId){
+        await database.deleteDocument(DATABASE_ID, COLLECTION_ID, movie_object.$id);
+      }
+    });
+  }
+   catch (error) {
+    console.error("Error removing movie:", error);
+   }
+  };
