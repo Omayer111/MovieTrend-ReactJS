@@ -88,15 +88,33 @@ const Navbar = () => {
         }`}
       >
         <ul className="space-y-4 flex flex-col items-center">
-          {isSignedin ? (
-            <li className="h-8 w-8 rounded-full bg-amber-50"></li>
+        {isAuthenticated ? (
+            <>
+            <li><FaUserAstronaut className="text-white h-10 w-10 cursor-pointer" onClick={() => navigate("/user-panel")} /></li>
+           <li
+           className="text-white text-[20px] cursor-pointer mt-1.5"
+           onClick={()=>{logout();
+            navigate("/login");
+           }} // Navigate to login page
+            // Navigate to login page
+         >
+           Logout
+         </li>
+         
+         </>
           ) : (
             <>
-              <li className="text-white text-[20px]  cursor-pointer " onClick={() => navigate("/login")}>
-                sign in
+              <li
+                className="text-white text-[20px] cursor-pointer"
+                onClick={() => navigate("/login")} // Navigate to login page
+              >
+                Sign In
               </li>
-              <li className="text-white text-[20px]  cursor-pointer" onClick={() => navigate("/register")}>
-                register
+              <li
+                className="text-white text-[20px] cursor-pointer"
+                onClick={() => navigate("/register")} // Navigate to register page
+              >
+                Register
               </li>
             </>
           )}
