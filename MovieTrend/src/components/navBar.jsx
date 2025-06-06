@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUserAstronaut } from "react-icons/fa";
 
-import {useAuth} from '../context/AuthProvider';
-
+import { useAuth } from "../context/AuthProvider";
 
 const Navbar = () => {
-  const {isAuthenticated,logout} = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSignedin, setIsSignedin] = useState(false);
   const navigate = useNavigate();
 
   return (
@@ -23,34 +21,36 @@ const Navbar = () => {
         </a>
 
         {/* Desktop Navigation */}
-        {/* Desktop Navigation */}
         <ul className="hidden md:flex space-x-6">
-
           {isAuthenticated ? (
             <>
-            <li><FaUserAstronaut className="text-white h-10 w-10 cursor-pointer" onClick={() => navigate("/user-panel")} /></li>
-           <li
-           className="text-white text-[20px] cursor-pointer mt-1.5"
-           onClick={()=>{logout();
-            navigate("/login");
-           }} // Navigate to login page
-            // Navigate to login page
-         >
-           Logout
-         </li>
-         
-         </>
+              <li>
+                <FaUserAstronaut
+                  className="text-white h-10 w-10 cursor-pointer"
+                  onClick={() => navigate("/user-panel")}
+                />
+              </li>
+              <li
+                className="text-white text-[20px] cursor-pointer mt-1.5"
+                onClick={() => {
+                  logout();
+                  navigate("/login");
+                }} // Navigate to login page
+              >
+                Logout
+              </li>
+            </>
           ) : (
             <>
               <li
                 className="text-white text-[20px] cursor-pointer"
-                onClick={() => navigate("/login")} // Navigate to login page
+                onClick={() => navigate("/login")}
               >
                 Sign In
               </li>
               <li
                 className="text-white text-[20px] cursor-pointer"
-                onClick={() => navigate("/register")} // Navigate to register page
+                onClick={() => navigate("/register")}
               >
                 Register
               </li>
@@ -58,9 +58,9 @@ const Navbar = () => {
           )}
         </ul>
 
-        {/* Mobile Menu Button */}
+        {/* hamburger menu button */}
         <button
-          className="md:hidden text-white focus:outline-none"
+          className="md:hidden text-white focus:outline-none cursor-pointer"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <svg
@@ -79,7 +79,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu conditional rendering based on the state value */}
       <div
         className={`md:hidden bg-dark-100 absolute top-16 left-0 w-full px-5 py-4 transition-all duration-300 ${
           isMenuOpen
@@ -88,20 +88,25 @@ const Navbar = () => {
         }`}
       >
         <ul className="space-y-4 flex flex-col items-center">
-        {isAuthenticated ? (
+          {isAuthenticated ? (
             <>
-            <li><FaUserAstronaut className="text-white h-10 w-10 cursor-pointer" onClick={() => navigate("/user-panel")} /></li>
-           <li
-           className="text-white text-[20px] cursor-pointer mt-1.5"
-           onClick={()=>{logout();
-            navigate("/login");
-           }} // Navigate to login page
-            // Navigate to login page
-         >
-           Logout
-         </li>
-         
-         </>
+              <li>
+                <FaUserAstronaut
+                  className="text-white h-10 w-10 cursor-pointer"
+                  onClick={() => navigate("/user-panel")}
+                />
+              </li>
+              <li
+                className="text-white text-[20px] cursor-pointer mt-1.5"
+                onClick={() => {
+                  logout();
+                  navigate("/login");
+                }} // Navigate to login page
+                // Navigate to login page
+              >
+                Logout
+              </li>
+            </>
           ) : (
             <>
               <li
