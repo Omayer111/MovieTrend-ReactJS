@@ -66,6 +66,16 @@ MovieTrend/
 ├── vite.config.js        # Vite configuration
 └── README.md            # Project documentation
 ```
+### Homepage:
+![image](https://github.com/user-attachments/assets/82940baf-21b3-479a-8eca-1d41d3b2f37d)
+
+### MovieList:
+![image](https://github.com/user-attachments/assets/11e6bb20-9659-4e73-9066-d600ce58e8a2)
+
+### User-Panel:
+![image](https://github.com/user-attachments/assets/21aa8092-a3f8-4e1b-a347-36be13b2bf42)
+
+
 
 ## 🚀 Getting Started
 
