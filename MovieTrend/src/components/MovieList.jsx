@@ -74,47 +74,50 @@ const MovieList = ({ movieData }) => {
         )}
 
         <ul>
-          {movieData.results.slice(0, 300).map((movie, index) => (
-            <li key={movie.id} className="movie-card">
-              <img
-                src={
-                  movie.poster_path
-                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                    : "../../public/No-poster.png"
-                }
-                alt={movie.title}
-              />
-              <h3>{movie.title}</h3>
-              <div className="content">
-                <div className="rating">
-                  <img src="../public/star.svg" alt="star" />
-                  <p>{movie.vote_average.toFixed(1)}</p>
+          {movieData.results
+            .slice(0, 300)
+            .filter((movie) => !movie.adult)
+            .map((movie, index) => (
+              <li key={movie.id} className="movie-card">
+                <img
+                  src={
+                    movie.poster_path
+                      ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                      : "../../public/No-poster.png"
+                  }
+                  alt={movie.title}
+                />
+                <h3>{movie.title}</h3>
+                <div className="content">
+                  <div className="rating">
+                    <img src="../public/star.svg" alt="star" />
+                    <p>{movie.vote_average.toFixed(1)}</p>
+                  </div>
+
+                  <p className="content lang">{movie.original_language}</p>
+                  <p className="content year">
+                    {movie.release_date
+                      ? movie.release_date.substr(0, 4)
+                      : "Not available"}
+                  </p>
+
+                  {starMovie.includes(movie.id) ? (
+                    <img
+                      className="h-7 w-6 ml-15 lg:ml-20 cursor-pointer"
+                      src="../../public/star-filled.svg"
+                      alt="star"
+                    />
+                  ) : (
+                    <img
+                      className="h-7 w-6 ml-15 lg:ml-20 cursor-pointer"
+                      src="../../public/star-empty.svg"
+                      alt="star"
+                      onClick={() => handleFavoriteClick(movie)}
+                    />
+                  )}
                 </div>
-
-                <p className="content lang">{movie.original_language}</p>
-                <p className="content year">
-                  {movie.release_date
-                    ? movie.release_date.substr(0, 4)
-                    : "Not available"}
-                </p>
-
-                {starMovie.includes(movie.id) ? (
-                  <img
-                    className="h-7 w-6 ml-15 lg:ml-20 cursor-pointer"
-                    src="../../public/star-filled.svg"
-                    alt="star"
-                  />
-                ) : (
-                  <img
-                    className="h-7 w-6 ml-15 lg:ml-20 cursor-pointer"
-                    src="../../public/star-empty.svg"
-                    alt="star"
-                    onClick={() => handleFavoriteClick(movie)}
-                  />
-                )}
-              </div>
-            </li>
-          ))}
+              </li>
+            ))}
         </ul>
       </div>
       {/* <button

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FaUserAstronaut } from "react-icons/fa";
 import { useAuth } from "../context/AuthProvider";
 
@@ -7,6 +7,11 @@ const Navbar = ({ onHomeClick }) => {
   const { isAuthenticated, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+    useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-dark-100 shadow-lg z-50">
@@ -16,6 +21,7 @@ const Navbar = ({ onHomeClick }) => {
           onClick={() => {
             navigate("/");
             onHomeClick();
+            setIsMenuOpen(false); // Close the menu when logo is clicked
             // Reset search when logo is clicked
           }}
           className="text-white text-2xl  font-bold text-gradient-header cursor-pointer"
@@ -30,7 +36,10 @@ const Navbar = ({ onHomeClick }) => {
               <li>
                 <FaUserAstronaut
                   className="text-white h-10 w-10 cursor-pointer"
-                  onClick={() => navigate("/user-panel")}
+                  onClick={() => {
+                    navigate("/user-panel");
+                    setIsMenuOpen(false); // Close the menu when user icon is clicked}}
+                  }}
                 />
               </li>
               <li
@@ -38,6 +47,7 @@ const Navbar = ({ onHomeClick }) => {
                 onClick={() => {
                   logout();
                   navigate("/login");
+                  setIsMenuOpen(false); // Close the menu when logout is clicked
                 }} // Navigate to login page
               >
                 Logout
@@ -47,13 +57,19 @@ const Navbar = ({ onHomeClick }) => {
             <>
               <li
                 className="text-white text-[20px] cursor-pointer"
-                onClick={() => navigate("/login")}
+                onClick={() => {
+                  navigate("/login");
+                  setIsMenuOpen(false);
+                }}
               >
                 Sign In
               </li>
               <li
                 className="text-white text-[20px] cursor-pointer"
-                onClick={() => navigate("/register")}
+                onClick={() => {
+                  navigate("/register");
+                  setIsMenuOpen(false);
+                }}
               >
                 Register
               </li>
@@ -96,7 +112,10 @@ const Navbar = ({ onHomeClick }) => {
               <li>
                 <FaUserAstronaut
                   className="text-white h-10 w-10 cursor-pointer"
-                  onClick={() => navigate("/user-panel")}
+                  onClick={() => {
+                    navigate("/user-panel");
+                    setIsMenuOpen(false);
+                  }}
                 />
               </li>
               <li
@@ -104,6 +123,7 @@ const Navbar = ({ onHomeClick }) => {
                 onClick={() => {
                   logout();
                   navigate("/login");
+                  setIsMenuOpen(false);
                 }} // Navigate to login page
                 // Navigate to login page
               >
@@ -114,13 +134,15 @@ const Navbar = ({ onHomeClick }) => {
             <>
               <li
                 className="text-white text-[20px] cursor-pointer"
-                onClick={() => navigate("/login")} // Navigate to login page
+                onClick={() => {navigate("/login");            setIsMenuOpen(false);}} // Navigate to login page
               >
                 Sign In
               </li>
               <li
                 className="text-white text-[20px] cursor-pointer"
-                onClick={() => navigate("/register")} // Navigate to register page
+                onClick={() => {navigate("/register");
+                              setIsMenuOpen(false);
+                }} // Navigate to register page
               >
                 Register
               </li>

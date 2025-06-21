@@ -24,7 +24,7 @@
   body {
     font-family: "DM Sans", serif;
     font-optical-sizing: auto;
-    background: #0c0113;
+    background: #030014;
     zoom: 0.8;
   }
 
@@ -51,7 +51,7 @@
   } */
 
   .wrapper {
-    @apply px-5 py-12 xs:p-10 max-w-7xl mx-auto flex flex-col relative z-10;
+    @apply my-10 px-5 py-12 xs:p-10 max-w-7xl mx-auto flex flex-col relative z-10;
   }
 
   .trending {

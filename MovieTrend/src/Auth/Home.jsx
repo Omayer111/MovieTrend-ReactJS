@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useDebounce } from "react-use";
 import Spinner from "../components/Spinner";
 import Navbar from "../components/Navbar";
+import Pagination from "../components/Pagination";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -24,6 +25,8 @@ const Home = () => {
   const [movieData, setMovieData] = useState([]);
   const [trending, setTrending] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [searchpage, setSearchPage] = useState(1);
 
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
@@ -34,7 +37,7 @@ const Home = () => {
   const fetchTrending = async (search = "") => {
     try {
       if (search) {
-        const endpoint = `${API_BASE_URL}/search/movie?query=${search}`;
+        const endpoint = `${API_BASE_URL}/search/movie?query=${search}&page=${searchpage}&include_adult=false`;
 
         // fetch returns a promise which resolves to the response of the request, and we need to await it to get the actual data. same goes for response.json() which also returns a promise that resolves to the JSON data.
 
@@ -52,7 +55,7 @@ const Home = () => {
         return;
       }
       // If no search term is provided, fetch trending movies
-      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&page=${page}&include_adult=false`;
       const response = await fetch(endpoint, API_OPTIONS);
       const data = await response.json();
       setMovieData(data);
@@ -66,7 +69,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchTrending(debouncedSearch);
-  }, [debouncedSearch]); // Fetch movies when the debounced search term changes
+  }, [debouncedSearch, page, searchpage]); // Fetch movies when the debounced search term changes
 
   useEffect(() => {
     const fetchTrendingData = async () => {
@@ -80,8 +83,14 @@ const Home = () => {
   return (
     <main>
       {/* wrapper class is used to center the content and apply padding */}
-      <Navbar onHomeClick={() => setSearch("")} /> 
-        {/* for the navbar to reset the search state when the user clicks on the home button. */}
+      <Navbar
+        onHomeClick={() => {
+          setSearch("");
+          setPage(1); // Reset page to 1 when home is clicked
+          setSearchPage(1); // Reset search page to 1 when home is clicked
+        }}
+      />
+      {/* for the navbar to reset the search state when the user clicks on the home button. */}
       <div className="wrapper">
         <header>
           <p className="mt-10 text-amber-50 text-4xl font-bold text-center">
@@ -97,6 +106,10 @@ const Home = () => {
           ) : (
             <>
               <MovieList movieData={movieData} />
+              <Pagination
+                page={searchpage}
+                setPage={setSearchPage}
+              />
             </>
           )
         ) : loading ? (
@@ -105,6 +118,7 @@ const Home = () => {
           <>
             <Trending trending={trending} />
             <MovieList movieData={movieData} />
+            <Pagination page={page} setPage={setPage} />
           </>
         )}
       </div>
