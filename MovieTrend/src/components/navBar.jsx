@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUserAstronaut } from "react-icons/fa";
-
 import { useAuth } from "../context/AuthProvider";
 
-const Navbar = () => {
+const Navbar = ({ onHomeClick }) => {
   const { isAuthenticated, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -14,7 +13,11 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
         {/* Logo */}
         <a
-          onClick={() => navigate("/")}
+          onClick={() => {
+            navigate("/");
+            onHomeClick();
+            // Reset search when logo is clicked
+          }}
           className="text-white text-2xl  font-bold text-gradient-header cursor-pointer"
         >
           MovieTrend

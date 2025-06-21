@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { getFavorites, removeFromFavorites } from "../favorites/AddToFavorites";
+import Spinner from "../components/Spinner";
 
 const UserPanel = () => {
   console.log("UserPanel");
 
   const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Fetch favorites on component mount
   useEffect(() => {
     const fetchFavorites = async () => {
       const favs = await getFavorites();
-      setFavorites(favs);  // Store favorite movies in state
+      setFavorites(favs); // Store favorite movies in state
+      setLoading(false);
       console.log(favs);
     };
 
@@ -20,7 +23,7 @@ const UserPanel = () => {
   // Handle remove favorite
   const handleRemoveFavorite = async (movieId) => {
     await removeFromFavorites(movieId);
-    setFavorites((prev) => prev.filter((movie) => movie.movie_id !== movieId));  // Update UI
+    setFavorites((prev) => prev.filter((movie) => movie.movie_id !== movieId)); // Update UI
   };
 
   return (
@@ -28,7 +31,9 @@ const UserPanel = () => {
       <div className="all-movies">
         <h2 className="text-white mt-20 text-center">Your Favorites</h2>
 
-        {favorites.length === 0 ? (
+        {loading ? (
+          <Spinner />
+        ) : favorites.length === 0 ? (
           <p className="text-white text-center">No favorite movies found.</p>
         ) : (
           <ul>
@@ -50,12 +55,9 @@ const UserPanel = () => {
                   </div>
 
                   <p className="content lang">{movie.movie[3]}</p>
-                  <p className="content year">
-                    {movie.movie[4]}
-                  </p>
+                  <p className="content year">{movie.movie[4]}</p>
 
                   {/* Remove from Favorites Button */}
-                  
                 </div>
                 <div className="mt-4 flex justify-center">
                   <button
@@ -64,7 +66,7 @@ const UserPanel = () => {
                   >
                     Remove
                   </button>
-                  </div>
+                </div>
               </li>
             ))}
           </ul>

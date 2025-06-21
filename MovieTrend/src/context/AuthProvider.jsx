@@ -5,7 +5,7 @@
 // useContext() = Your car radio tuned to 95.5 FM
 // When the radio station (Provider) changes the song, all cars tuned in (useContext) hear the new song instantly!
 
-import React from 'react'
+
 import { createContext,useState,useContext } from 'react'
 
 // creating contexts with two comp provider and consumer

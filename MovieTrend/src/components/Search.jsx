@@ -1,7 +1,4 @@
-import React from "react";
-import { useState } from "react";
-
-const Search = ({ search, setSearch }) => {
+const Search = ({ search, setSearch, setLoading }) => {
   // const [localSearch, setLocalSearch] = useState("");
   return (
     <>
@@ -11,9 +8,11 @@ const Search = ({ search, setSearch }) => {
           <input
             type="text"
             placeholder="Search for a movie"
+            // controlled component pattern, asa the onChange event updates the state of the search input -->  calling the setSearch function to update the search state in the parent component (Home.jsx) whenever the user types in the input field.
             value={search}
             onChange={(event) => {
               setSearch(event.target.value);
+              setLoading(true);
             }}
           />
         </div>
