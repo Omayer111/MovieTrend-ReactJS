@@ -9,7 +9,7 @@ const Navbar = ({ onHomeClick }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-    useEffect(() => {
+  useEffect(() => {
     setIsMenuOpen(false);
   }, [location.pathname]);
 
@@ -24,7 +24,7 @@ const Navbar = ({ onHomeClick }) => {
             setIsMenuOpen(false); // Close the menu when logo is clicked
             // Reset search when logo is clicked
           }}
-          className="text-white text-2xl  font-bold text-gradient-header cursor-pointer"
+          className="text-white text-2xl  font-bold text-gradient-header cursor-pointer  active:scale-95 hover:scale-105 transition-transform duration-300"
         >
           MovieTrend
         </a>
@@ -33,9 +33,9 @@ const Navbar = ({ onHomeClick }) => {
         <ul className="hidden md:flex space-x-6">
           {isAuthenticated ? (
             <>
-              <li>
+              <li className="border border-white rounded-full p-1 hover:bg-bottom transition duration-200 hover:scale-107 transition-transform duration-300">
                 <FaUserAstronaut
-                  className="text-white h-10 w-10 cursor-pointer"
+                  className="text-white h-10 w-10 cursor-pointer "
                   onClick={() => {
                     navigate("/user-panel");
                     setIsMenuOpen(false); // Close the menu when user icon is clicked}}
@@ -43,7 +43,9 @@ const Navbar = ({ onHomeClick }) => {
                 />
               </li>
               <li
-                className="text-white text-[20px] cursor-pointer mt-1.5"
+                className="text-white text-[20px] font-semibold cursor-pointer px-5 py-2 rounded transition 
+             duration-200 hover:bg-gradient-to-r from-red-900  to-rose-900 hover:text-white focus:outline-none focus:ring-2 
+             focus:ring-purple-800 focus:ring-offset-2 active:scale-95 border border-amber-100"
                 onClick={() => {
                   logout();
                   navigate("/login");
@@ -56,7 +58,9 @@ const Navbar = ({ onHomeClick }) => {
           ) : (
             <>
               <li
-                className="text-white text-[20px] cursor-pointer"
+                className="text-white text-[20px] font-semibold cursor-pointer px-5 py-2 rounded transition 
+             duration-200 hover:bg-yellow-700 hover:text-white focus:outline-none focus:ring-2 
+             focus:ring-purple-800 focus:ring-offset-2 active:scale-95 border border-amber-100"
                 onClick={() => {
                   navigate("/login");
                   setIsMenuOpen(false);
@@ -65,7 +69,9 @@ const Navbar = ({ onHomeClick }) => {
                 Sign In
               </li>
               <li
-                className="text-white text-[20px] cursor-pointer"
+                className="text-white text-[20px] font-semibold cursor-pointer px-5 py-2 rounded transition 
+             duration-200 hover:bg-purple-800 hover:text-white focus:outline-none focus:ring-2 
+             focus:ring-purple-800 focus:ring-offset-2 active:scale-95 border border-amber-100"
                 onClick={() => {
                   navigate("/register");
                   setIsMenuOpen(false);
@@ -134,14 +140,18 @@ const Navbar = ({ onHomeClick }) => {
             <>
               <li
                 className="text-white text-[20px] cursor-pointer"
-                onClick={() => {navigate("/login");            setIsMenuOpen(false);}} // Navigate to login page
+                onClick={() => {
+                  navigate("/login");
+                  setIsMenuOpen(false);
+                }} // Navigate to login page
               >
                 Sign In
               </li>
               <li
                 className="text-white text-[20px] cursor-pointer"
-                onClick={() => {navigate("/register");
-                              setIsMenuOpen(false);
+                onClick={() => {
+                  navigate("/register");
+                  setIsMenuOpen(false);
                 }} // Navigate to register page
               >
                 Register

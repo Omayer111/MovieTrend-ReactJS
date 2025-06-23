@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthProvider";
-import { AddToFavorites, getFavorites } from "../favorites/AddToFavorites";
+import {
+  AddToFavorites,
+  getFavorites,
+  RemoveFromFavorites,
+} from "../favorites/AddToFavorites";
 
 const MovieList = ({ movieData }) => {
   const { isAuthenticated, user } = useAuth();
@@ -30,7 +34,7 @@ const MovieList = ({ movieData }) => {
     return <h2 className="wrapper">No movies found.</h2>;
   }
 
-  const handleFavoriteClick = async (movie) => {
+  const handleFavoriteClick = async (movie, giveStar) => {
     if (!isAuthenticated) {
       setNotification({
         message: "Please sign in to add to favorites",
@@ -41,17 +45,19 @@ const MovieList = ({ movieData }) => {
       setTimeout(() => {
         setNotification(null);
       }, 3000);
-    } else {
-      console.log(localStorage.getItem("user"), movie);
+
+      return;
+    }
+
+    if (giveStar) {
+      // console.log(localStorage.getItem("user"), movie);
       await AddToFavorites({ user, movie });
-
-      // const favs = getFavorites();
-      // setFavorites((prev)=>[...prev,favs.movie_id]);
-      // const favs = await getFavorites();
-      // setFavorites(favs);
-      // console.log(favs);
-
       setStarMovie((prev) => [...prev, movie.id]);
+    } else {
+      // Remove from favorites logic
+      // console.log("Removing from favorites", movie);
+      await RemoveFromFavorites({ user, movie });
+      setStarMovie((prev) => prev.filter((id) => id !== movie.id));
 
       // change here
     }
@@ -78,7 +84,10 @@ const MovieList = ({ movieData }) => {
             .slice(0, 300)
             .filter((movie) => !movie.adult)
             .map((movie, index) => (
-              <li key={movie.id} className="movie-card">
+              <li
+                key={movie.id}
+                className="movie-card hover:scale-105 transition-transform duration-300 cursor-pointer"
+              >
                 <img
                   src={
                     movie.poster_path
@@ -103,16 +112,23 @@ const MovieList = ({ movieData }) => {
 
                   {starMovie.includes(movie.id) ? (
                     <img
-                      className="h-7 w-6 ml-15 lg:ml-20 cursor-pointer"
+                      className="h-7 w-6 ml-15 lg:ml-20 cursor-pointer hover:scale-110 transition-transform duration-300"
                       src="../../public/star-filled.svg"
                       alt="star"
+                      onClick={async (e) => {
+                        e.stopPropagation(); // 🛑 stop click from reaching card
+                        await handleFavoriteClick(movie, false);
+                      }}
                     />
                   ) : (
                     <img
-                      className="h-7 w-6 ml-15 lg:ml-20 cursor-pointer"
+                      className="h-7 w-6 ml-15 lg:ml-20 cursor-pointer hover:scale-110 transition-transform duration-300"
                       src="../../public/star-empty.svg"
                       alt="star"
-                      onClick={() => handleFavoriteClick(movie)}
+                      onClick={async (e) => {
+                        e.stopPropagation(); // 🛑 stop click from reaching card
+                        await handleFavoriteClick(movie, true);
+                      }}
                     />
                   )}
                 </div>

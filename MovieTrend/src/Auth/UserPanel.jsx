@@ -38,7 +38,7 @@ const UserPanel = () => {
         ) : (
           <ul>
             {favorites.map((movie) => (
-              <li key={movie.movie_id} className="movie-card">
+              <li key={movie.movie_id} className="movie-card hover:scale-105 transition-transform duration-300 cursor-pointer">
                 <img
                   src={
                     movie.movie[0]

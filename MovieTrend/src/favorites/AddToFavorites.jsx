@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { Client, Databases, Query, ID } from "appwrite";
 
 const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
@@ -11,51 +11,61 @@ const client = new Client()
 
 const database = new Databases(client);
 
-export const AddToFavorites = async ({user,movie}) => {
-    const movie_id = movie.id;
-    const movieData = [`https://image.tmdb.org/t/p/w500${movie.poster_path}`,movie.title,(movie.vote_average).toFixed(1),movie.original_language,(movie.release_date).substr(0,4)];
-    console.log(movieData);
+export const AddToFavorites = async ({ user, movie }) => {
+  const movie_id = movie.id;
+  const movieData = [
+    `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+    movie.title,
+    movie.vote_average.toFixed(1),
+    movie.original_language,
+    movie.release_date.substr(0, 4),
+  ];
+  console.log(movieData);
 
-   try {
-        console.log("Creating new movie doc");
-        await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
-          email: localStorage.getItem("user"),
-            movie: movieData,
-            movie_id: movie_id,
-        });
-    } catch (error) {
-      console.error(`Error updating search count: ${error}`);
-    }
-}
-
-export const getFavorites = async () => {
-    try {
-        const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
-            Query.equal("email", localStorage.getItem("user")),
-        ]);
-
-        console.log(result.documents);
-        return result.documents || [];
-    } catch (error) {
-        console.error(`Error fetching movies: ${error}`);
-    }
+  try {
+    console.log("Creating new movie doc");
+    await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
+      email: localStorage.getItem("user"),
+      movie: movieData,
+      movie_id: movie_id,
+    });
+  } catch (error) {
+    console.error(`Error updating search count: ${error}`);
+  }
 };
 
+export const RemoveFromFavorites = async ({ user, movie }) => {
+  // console.log("Removing movie from favorites");
+  const movie_id = movie.id;
+  try {
+    console.log("Removing movie doc");
+    const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
+      Query.equal("email", user),
+    ]);
 
-export const removeFromFavorites = async (movieId) => {
+    result.documents.forEach(async (movie_object) => {
+      if (movie_object.movie_id === movie_id) {
+        await database.deleteDocument(
+          DATABASE_ID,
+          COLLECTION_ID,
+          movie_object.$id
+        );
+      }
+    });
+  } catch (error) {
+    console.error(`Error removing movie: ${error}`);
+  }
+};
+
+export const getFavorites = async () => {
   try {
     const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
       Query.equal("email", localStorage.getItem("user")),
     ]);
-    console.log(result.documents);
 
-    result.documents.forEach(async (movie_object) => {
-      if(movie_object.movie_id === movieId){
-        await database.deleteDocument(DATABASE_ID, COLLECTION_ID, movie_object.$id);
-      }
-    });
+    console.log(result.documents);
+    return result.documents || [];
+  } catch (error) {
+    console.error(`Error fetching movies: ${error}`);
   }
-   catch (error) {
-    console.error("Error removing movie:", error);
-   }
-  };
+};

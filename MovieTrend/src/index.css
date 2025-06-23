@@ -56,22 +56,15 @@
 
   .trending {
     @apply mt-20;
-
-    & ul {
-      @apply flex flex-row overflow-x-auto gap-5 -mt-10 w-full hide-scrollbar;
-    }
-
-    & ul li {
-      @apply min-w-[230px] flex flex-row items-center;
-    }
-
-    & ul li p {
-      @apply fancy-text mt-[22px] text-nowrap;
-    }
-
-    & ul li img {
-      @apply w-[127px] h-[163px] rounded-lg object-cover -ml-3.5;
-    }
+  }
+  .trending ul {
+    @apply flex flex-row overflow-x-auto gap-7 w-full hide-scrollbar pb-7;
+  }
+  .trending-card {
+    @apply min-w-[180px] bg-[#1a1333] rounded-xl shadow-lg flex flex-col items-center p-3 transition-transform hover:scale-105;
+  }
+  .trending-img {
+    @apply w-[140px] h-[200px] rounded-lg object-cover;
   }
 
   .search {
@@ -91,7 +84,7 @@
   }
 
   .all-movies {
-    @apply space-y-9;
+    @apply space-y-7;
 
     & ul {
       @apply grid grid-cols-2 gap-5 xs:grid-cols-2 md:grid-cols-4 lg:grid-cols-5;

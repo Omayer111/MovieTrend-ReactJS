@@ -2,7 +2,7 @@ const Search = ({ search, setSearch, setLoading }) => {
   // const [localSearch, setLocalSearch] = useState("");
   return (
     <>
-      <div className="search">
+      <div className="search hover:scale-103 transition duration-300">
         <div>
           <img src="../../public/search.svg" alt="Search Icon" />
           <input
