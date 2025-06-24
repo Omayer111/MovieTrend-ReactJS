@@ -14,21 +14,19 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(  localStorage.getItem("isAuthenticated") === "true");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
 
   const login = (userEmail) => {
     setIsAuthenticated(true);
-    localStorage.setItem('isAuthenticated', 'true');
     setUser(userEmail);
-    localStorage.setItem('user', userEmail);
     console.log(userEmail);
+    
+    
 
   }
   const logout = () => {
     setIsAuthenticated(false);
-    localStorage.setItem('isAuthenticated', 'false');
-    localStorage.removeItem('user');
   }
 
   // this helps passing the status of auth and also the function to toggle auth status so that every component that uses this context can access it

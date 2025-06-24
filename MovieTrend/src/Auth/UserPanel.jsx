@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { getFavorites, removeFromFavorites } from "../favorites/AddToFavorites";
+import { getFavorites, userPanelRemoveFromFavorites } from "../favorites/AddToFavorites";
 import Spinner from "../components/Spinner";
+import { useAuth } from "../context/AuthProvider";
 
 const UserPanel = () => {
   console.log("UserPanel");
-
+  const {user} = useAuth(); // Get user from Auth context
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch favorites on component mount
   useEffect(() => {
     const fetchFavorites = async () => {
-      const favs = await getFavorites();
+      const favs = await getFavorites({user});
       setFavorites(favs); // Store favorite movies in state
       setLoading(false);
       console.log(favs);
@@ -21,9 +22,9 @@ const UserPanel = () => {
   }, []);
 
   // Handle remove favorite
-  const handleRemoveFavorite = async (movieId) => {
-    await removeFromFavorites(movieId);
-    setFavorites((prev) => prev.filter((movie) => movie.movie_id !== movieId)); // Update UI
+  const handleRemoveFavorite = async (movie) => {
+    await userPanelRemoveFromFavorites({user, movie}); // Remove from database
+    setFavorites((prev) => prev.filter((mov) => mov.movie_id !== movie.movie_id)); // Update UI
   };
 
   return (
@@ -61,8 +62,8 @@ const UserPanel = () => {
                 </div>
                 <div className="mt-4 flex justify-center">
                   <button
-                    className="bg-red-500 text-white px-4 py-2 rounded mt-2 cursor-pointer "
-                    onClick={() => handleRemoveFavorite(movie.movie_id)}
+                    className="bg-red-500 text-white px-4 py-2 rounded mt-2 cursor-pointer hover:scale-105 transition-transform duration-300"
+                    onClick={() => handleRemoveFavorite(movie)}
                   >
                     Remove
                   </button>

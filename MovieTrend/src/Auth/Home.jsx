@@ -8,6 +8,7 @@ import Spinner from "../components/Spinner";
 import Navbar from "../components/Navbar";
 import Pagination from "../components/Pagination";
 
+
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -18,6 +19,7 @@ const API_OPTIONS = {
     Authorization: `Bearer ${API_KEY}`,
   },
 };
+
 
 const Home = () => {
   const [search, setSearch] = useState("");
@@ -31,6 +33,12 @@ const Home = () => {
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
   // useDebounce is a custom hook that delays the execution of the function until after a specified delay (1000ms in this case) commonly used to prevent excessive API calls while the user is typing in the search input.
+
+  const onHomeClick = () => {
+          setSearch("");
+          setPage(1); // Reset page to 1 when home is clicked
+          setSearchPage(1); // Reset search page to 1 when home is clicked
+        }
 
   useDebounce(() => setDebouncedSearch(search), 1000, [search]);
 
@@ -74,7 +82,8 @@ const Home = () => {
   useEffect(() => {
     const fetchTrendingData = async () => {
       const trendingData = await getTrending(); // Assuming this function returns a Promise from appwrite to know the trending movies
-      setTrending(trendingData); // Set the actual data, not a Promise
+      setTrending(trendingData); 
+
     };
 
     fetchTrendingData();
@@ -84,11 +93,7 @@ const Home = () => {
     <main>
       {/* wrapper class is used to center the content and apply padding */}
       <Navbar
-        onHomeClick={() => {
-          setSearch("");
-          setPage(1); // Reset page to 1 when home is clicked
-          setSearchPage(1); // Reset search page to 1 when home is clicked
-        }}
+        onHomeClick={onHomeClick} // Pass the onHomeClick function to the Navbar component
       />
       {/* for the navbar to reset the search state when the user clicks on the home button. */}
       <div className="wrapper">

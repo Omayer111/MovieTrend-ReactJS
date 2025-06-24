@@ -3,6 +3,8 @@ import { Client, Databases, Query, ID } from "appwrite";
 const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_TRENDING_ID;
+const AUTH_COLLECTION_ID = import.meta.env
+  .VITE_APPWRITE_COLLECTION_AUTHENTICATION_ID;
 
 const client = new Client()
   .setEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
@@ -47,5 +49,52 @@ export const getTrending = async () => {
     return result.documents || [];
   } catch (error) {
     console.error(`Error fetching movies: ${error}`);
+  }
+};
+
+export const userLogin = async ({ data }) => {
+  try {
+    const result = await database.listDocuments(
+      DATABASE_ID,
+      AUTH_COLLECTION_ID,
+      [Query.equal("email", data.email), Query.equal("password", data.password)]
+    );
+
+    if (result.documents.length > 0) {
+      // If the user exists, log success message
+      console.log("Login successful, welcome!");
+      return result.documents[0]; // Return user data
+    } else {
+      // If the user doesn't exist, show error notification
+      return false; // Indicate login failure
+    }
+  } catch (error) {
+    console.error(`Error logging in: ${error}`);
+  }
+};
+
+export const userRegistration = async ({ data }) => {
+  try {
+    const result = await database.listDocuments(DATABASE_ID, AUTH_COLLECTION_ID, [
+      Query.equal("email", data.email),
+    ]);
+
+    if (result.documents.length > 0) {
+      // Show notification if email exists
+      return false; // Indicate registration failure
+    } else {
+      console.log("Creating new User");
+      await database.createDocument(DATABASE_ID, AUTH_COLLECTION_ID, ID.unique(), {
+        username: data.name,
+        email: data.email,
+        password: data.password,
+      });
+      console.log("User created successfully");
+
+      // Show success notification
+      return true; // Indicate registration success
+    }
+  } catch (error) {
+    console.error(`Error updating search count: ${error}`);
   }
 };

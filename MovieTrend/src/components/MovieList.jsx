@@ -17,7 +17,7 @@ const MovieList = ({ movieData }) => {
   useEffect(() => {
     const fetchFavorites = async () => {
       if (isAuthenticated) {
-        const favs = await getFavorites();
+        const favs = await getFavorites({user});
         const favoriteMovieIds = favs.map((movie) => movie.movie_id); // Extracting only the movie IDs
         setStarMovie(favoriteMovieIds);
       } else {
@@ -50,7 +50,7 @@ const MovieList = ({ movieData }) => {
     }
 
     if (giveStar) {
-      // console.log(localStorage.getItem("user"), movie);
+
       await AddToFavorites({ user, movie });
       setStarMovie((prev) => [...prev, movie.id]);
     } else {

@@ -1,19 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { Client, Databases, Query } from "appwrite";
+import { userLogin } from "../appwrite/appwrite";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 
-const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
-const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
-const COLLECTION_ID = import.meta.env
-  .VITE_APPWRITE_COLLECTION_AUTHENTICATION_ID;
 
-const client = new Client()
-  .setEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
-  .setProject(PROJECT_ID); // Your project ID
-
-const database = new Databases(client);
 
 const Login = () => {
   const { login, isAuthenticated } = useAuth();
@@ -27,31 +18,24 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    try {
-      const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
-        Query.equal("email", data.email),
-        Query.equal("password", data.password),
-      ]);
-
-      if (result.documents.length > 0) {
-        // If the user exists, log success message
-        console.log("Login successful, welcome!");
-        login(result.documents[0].email);
+    let res = await userLogin({data});
+    if (res) {
+      // If login is successful, set user data and navigate to user panel
+      login(res.email);
+      setNotification({
+        message: "Login successful, welcome!",
+        type: "success",
+      });
+      // Redirect to user panel after a short delay
+      setTimeout(() => {
         navigate("/user-panel");
-      } else {
-        // If the user doesn't exist, show error notification
-        setNotification({
-          message: "User does not exist. Please sign up.",
-          type: "error",
-        });
-
-        // Remove notification after 3 seconds
-        setTimeout(() => {
-          setNotification(null);
-        }, 3000);
-      }
-    } catch (error) {
-      console.error(`Error logging in: ${error}`);
+      }, 2000);
+    } else {
+      // If login fails, show error notification
+      setNotification({
+        message: "Invalid email or password. Please try again.",
+        type: "error",
+      });
     }
   };
 

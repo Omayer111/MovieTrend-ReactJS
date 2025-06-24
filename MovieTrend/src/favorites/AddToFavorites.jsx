@@ -25,7 +25,7 @@ export const AddToFavorites = async ({ user, movie }) => {
   try {
     console.log("Creating new movie doc");
     await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
-      email: localStorage.getItem("user"),
+      email: user,
       movie: movieData,
       movie_id: movie_id,
     });
@@ -57,15 +57,38 @@ export const RemoveFromFavorites = async ({ user, movie }) => {
   }
 };
 
-export const getFavorites = async () => {
+export const getFavorites = async ({user}) => {
   try {
     const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
-      Query.equal("email", localStorage.getItem("user")),
+      Query.equal("email", user),
     ]);
 
     console.log(result.documents);
     return result.documents || [];
   } catch (error) {
     console.error(`Error fetching movies: ${error}`);
+  }
+};
+
+export const userPanelRemoveFromFavorites = async ({ user, movie }) => {
+  // console.log("Removing movie from favorites");
+  const movie_id = movie.movie_id;
+  try {
+    console.log("Removing movie doc");
+    const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
+      Query.equal("email", user),
+    ]);
+
+    result.documents.forEach(async (movie_object) => {
+      if (movie_object.movie_id === movie_id) {
+        await database.deleteDocument(
+          DATABASE_ID,
+          COLLECTION_ID,
+          movie_object.$id
+        );
+      }
+    });
+  } catch (error) {
+    console.error(`Error removing movie: ${error}`);
   }
 };

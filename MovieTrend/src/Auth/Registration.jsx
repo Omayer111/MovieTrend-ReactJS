@@ -1,17 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { Client, Databases, Query, ID } from "appwrite";
+import { userRegistration } from "../appwrite/appwrite";
 
-const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
-const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
-const COLLECTION_ID = import.meta.env
-  .VITE_APPWRITE_COLLECTION_AUTHENTICATION_ID;
-
-const client = new Client()
-  .setEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
-  .setProject(PROJECT_ID); // Your project ID
-
-const database = new Databases(client);
 
 const Register = () => {
   const {
@@ -23,44 +13,21 @@ const Register = () => {
   const [notification, setNotification] = useState(null);
 
   const onSubmit = async (data) => {
-    try {
-      const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
-        Query.equal("email", data.email),
-      ]);
-
-      if (result.documents.length > 0) {
-        // Show notification if email exists
-        setNotification({
-          message: "Email already exists",
-          type: "error",
-        });
-
-        // Remove notification after 3 seconds
-        setTimeout(() => {
-          setNotification(null);
-        }, 3000);
-      } else {
-        console.log("Creating new User");
-        await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
-          username: data.name,
-          email: data.email,
-          password: data.password,
-        });
-        console.log("User created successfully");
-
-        // Show success notification
-        setNotification({
-          message: "User created successfully",
-          type: "success",
-        });
-
-        // Remove notification after 3 seconds
-        setTimeout(() => {
-          setNotification(null);
-        }, 3000);
-      }
-    } catch (error) {
-      console.error(`Error updating search count: ${error}`);
+    let res = await userRegistration({data});
+    if (res) {
+      setNotification({
+        message: "Registration successful! Please log in.",
+        type: "success",
+      });
+      // Redirect to login page after successful registration
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
+    } else {
+      setNotification({
+        message: "Registration failed. Please try again.",
+        type: "error",
+      });
     }
   };
 
