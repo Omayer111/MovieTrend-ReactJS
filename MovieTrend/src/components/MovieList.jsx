@@ -5,19 +5,27 @@ import {
   getFavorites,
   RemoveFromFavorites,
 } from "../favorites/AddToFavorites";
+import MovieDetails from "./MovieDetails";
+
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${import.meta.env.VITE_TMDB_BEARER}`,
+  },
+};
 
 const MovieList = ({ movieData }) => {
   const { isAuthenticated, user } = useAuth();
-  console.log(isAuthenticated);
-
   const [starMovie, setStarMovie] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   // const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     const fetchFavorites = async () => {
       if (isAuthenticated) {
-        const favs = await getFavorites({user});
+        const favs = await getFavorites({ user });
         const favoriteMovieIds = favs.map((movie) => movie.movie_id); // Extracting only the movie IDs
         setStarMovie(favoriteMovieIds);
       } else {
@@ -53,6 +61,7 @@ const MovieList = ({ movieData }) => {
 
       await AddToFavorites({ user, movie });
       setStarMovie((prev) => [...prev, movie.id]);
+
     } else {
       // Remove from favorites logic
       // console.log("Removing from favorites", movie);
@@ -87,6 +96,7 @@ const MovieList = ({ movieData }) => {
               <li
                 key={movie.id}
                 className="movie-card hover:scale-105 transition-transform duration-300 cursor-pointer"
+                onClick={() => setSelectedMovie(movie)} // 🖱️ Open details on click
               >
                 <img
                   src={
@@ -136,6 +146,14 @@ const MovieList = ({ movieData }) => {
             ))}
         </ul>
       </div>
+
+      {selectedMovie && (
+        <MovieDetails
+          movie={selectedMovie}
+          onClose={() => setSelectedMovie(null)}
+        />
+      )}
+
       {/* <button
         className={
           "fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-600 transition-colors"

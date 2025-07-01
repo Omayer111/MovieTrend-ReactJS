@@ -14,12 +14,15 @@ const database = new Databases(client);
 export const AddToFavorites = async ({ user, movie }) => {
   const movie_id = movie.id;
   const movieData = [
-    `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-    movie.title,
-    movie.vote_average.toFixed(1),
-    movie.original_language,
-    movie.release_date.substr(0, 4),
-  ];
+  `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+  String(movie.title),
+  String(movie.overview),
+  String(movie.vote_average?.toFixed(1)),
+  String(movie.vote_count),
+  String(movie.original_language),
+  String(movie.release_date?.substr(0, 4)),
+  String(movie.id)
+];
   console.log(movieData);
 
   try {
@@ -57,7 +60,7 @@ export const RemoveFromFavorites = async ({ user, movie }) => {
   }
 };
 
-export const getFavorites = async ({user}) => {
+export const getFavorites = async ({ user }) => {
   try {
     const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
       Query.equal("email", user),
