@@ -7,7 +7,6 @@ import {
 } from "../favorites/AddToFavorites";
 import MovieDetails from "./MovieDetails";
 
-
 const options = {
   method: "GET",
   headers: {
@@ -20,7 +19,6 @@ const MovieList = ({ movieData }) => {
   const { isAuthenticated, user } = useAuth();
   const [starMovie, setStarMovie] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
-
 
   // const [favorites, setFavorites] = useState([]);
 
@@ -109,7 +107,7 @@ const MovieList = ({ movieData }) => {
                 <h3>{movie.title}</h3>
                 <div className="content">
                   <div className="rating">
-                    <img src="../public/star.svg" alt="star" />
+                    <img src="../../public/star.svg" alt="star" />
                     <p>{movie.vote_average.toFixed(1)}</p>
                   </div>
 
@@ -120,27 +118,29 @@ const MovieList = ({ movieData }) => {
                       : "Not available"}
                   </p>
 
-                  {starMovie.includes(movie.id) ? (
-                    <img
-                      className="h-7 w-6 ml-15 lg:ml-20 cursor-pointer hover:scale-110 transition-transform duration-300"
-                      src="../../public/star-filled.svg"
-                      alt="star"
-                      onClick={async (e) => {
-                        e.stopPropagation(); // 🛑 stop click from reaching card
+                  <div
+                    className="w-full flex items-center justify-center  mt-2"
+                    onClick={async (e) => {
+                      e.stopPropagation();
+                      if (starMovie.includes(movie.id)) {
                         await handleFavoriteClick(movie, false);
-                      }}
-                    />
-                  ) : (
-                    <img
-                      className="h-7 w-6 ml-15 lg:ml-20 cursor-pointer hover:scale-110 transition-transform duration-300"
-                      src="../../public/star-empty.svg"
-                      alt="star"
-                      onClick={async (e) => {
-                        e.stopPropagation(); // 🛑 stop click from reaching card
+                      } else {
                         await handleFavoriteClick(movie, true);
-                      }}
-                    />
-                  )}
+                      }
+                    }}
+                  >
+                    <div className="h-6 w-6 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+                      <img
+                        className="h-4 w-4"
+                        src={
+                          starMovie.includes(movie.id)
+                            ? "../../public/star-filled.svg"
+                            : "../../star-empty.svg"
+                        }
+                        alt="star"
+                      />
+                    </div>
+                  </div>
                 </div>
               </li>
             ))}
