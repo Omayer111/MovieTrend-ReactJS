@@ -1,11 +1,11 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
-import Home from "./Auth/Home";
-import Login from "./Auth/Login";
-import Registration from "./Auth/Registration";
-import Navbar from "./components/Navbar";
-import UserPanel from "./Auth/UserPanel";
-import ProtectedRoute from "./context/ProtectedRoute";
-import { useAuth } from "./context/AuthProvider";
+import Home from "./Auth/Home.jsx";
+import Login from "./Auth/Login.jsx";
+import Registration from "./Auth/Registration.jsx";
+import Navbar from "./components/Navbar.jsx";
+import UserPanel from "./Auth/UserPanel.jsx";
+import ProtectedRoute from "./context/ProtectedRoute.jsx";
+import { useAuth } from "./context/AuthProvider.jsx";
 import { Navigate } from "react-router-dom";
 
 const App = () => {
