@@ -7,6 +7,7 @@ import {
 } from "../favorites/AddToFavorites";
 import MovieDetails from "./MovieDetails";
 
+
 const options = {
   method: "GET",
   headers: {
@@ -19,6 +20,7 @@ const MovieList = ({ movieData }) => {
   const { isAuthenticated, user } = useAuth();
   const [starMovie, setStarMovie] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+
 
   // const [favorites, setFavorites] = useState([]);
 
@@ -58,10 +60,8 @@ const MovieList = ({ movieData }) => {
     }
 
     if (giveStar) {
-
       await AddToFavorites({ user, movie });
       setStarMovie((prev) => [...prev, movie.id]);
-
     } else {
       // Remove from favorites logic
       // console.log("Removing from favorites", movie);

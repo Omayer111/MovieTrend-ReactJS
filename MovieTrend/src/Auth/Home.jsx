@@ -7,7 +7,7 @@ import { useDebounce } from "react-use";
 import Spinner from "../components/Spinner";
 import Navbar from "../components/Navbar";
 import Pagination from "../components/Pagination";
-
+import Filter from "../components/Filter";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -20,7 +20,6 @@ const API_OPTIONS = {
   },
 };
 
-
 const Home = () => {
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
@@ -32,13 +31,17 @@ const Home = () => {
 
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
+  const [filters, setFilters] = useState({});
+
+  const handleFilter = (criteria) => setFilters(criteria);
+
   // useDebounce is a custom hook that delays the execution of the function until after a specified delay (1000ms in this case) commonly used to prevent excessive API calls while the user is typing in the search input.
 
   const onHomeClick = () => {
-          setSearch("");
-          setPage(1); // Reset page to 1 when home is clicked
-          setSearchPage(1); // Reset search page to 1 when home is clicked
-        }
+    setSearch("");
+    setPage(1); // Reset page to 1 when home is clicked
+    setSearchPage(1); // Reset search page to 1 when home is clicked
+  };
 
   useDebounce(() => setDebouncedSearch(search), 1000, [search]);
 
@@ -63,7 +66,15 @@ const Home = () => {
         return;
       }
       // If no search term is provided, fetch trending movies
-      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&page=${page}&include_adult=false`;
+      let endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&page=${page}&include_adult=false`;
+
+      if (filters.genre) endpoint += `&with_genres=${filters.genre}`;
+      if (filters.year) endpoint += `&primary_release_year=${filters.year}`;
+      if (filters.language)
+        endpoint += `&with_original_language=${filters.language}`;
+      if (filters.minRating)
+        endpoint += `&vote_average.gte=${filters.minRating}`;
+
       const response = await fetch(endpoint, API_OPTIONS);
       const data = await response.json();
       setMovieData(data);
@@ -76,14 +87,13 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchTrending(debouncedSearch);
-  }, [debouncedSearch, page, searchpage]); // Fetch movies when the debounced search term changes
+    fetchTrending(debouncedSearch); // Fetch movies based on the debounced search term
+  }, [debouncedSearch, page, searchpage, filters]); // Fetch movies when the debounced search term changes
 
   useEffect(() => {
     const fetchTrendingData = async () => {
       const trendingData = await getTrending(); // Assuming this function returns a Promise from appwrite to know the trending movies
-      setTrending(trendingData); 
-
+      setTrending(trendingData);
     };
 
     fetchTrendingData();
@@ -111,10 +121,7 @@ const Home = () => {
           ) : (
             <>
               <MovieList movieData={movieData} />
-              <Pagination
-                page={searchpage}
-                setPage={setSearchPage}
-              />
+              <Pagination page={searchpage} setPage={setSearchPage} />
             </>
           )
         ) : loading ? (
@@ -122,6 +129,7 @@ const Home = () => {
         ) : (
           <>
             <Trending trending={trending} />
+            <Filter onFilter={handleFilter} load={setLoading}/>
             <MovieList movieData={movieData} />
             <Pagination page={page} setPage={setPage} />
           </>
