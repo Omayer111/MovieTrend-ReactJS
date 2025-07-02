@@ -33,7 +33,7 @@
   }
 
   main {
-    @apply min-h-screen relative bg-[#0c0113];
+    @apply min-h-screen relative bg-[#cecefb0d];
   }
 
   header {
@@ -44,12 +44,7 @@
 @layer components {
   .wrapper {
     @apply my-10 px-5 py-12 sm:p-10 max-w-7xl mx-auto flex flex-col relative z-10;
-    background-color: rgba(
-      206,
-      206,
-      251,
-      0.05
-    ); /* fallback for bg-light-100/5 */
+    background-color: #cecefb0d; /* fallback for bg-light-100/5 */
   }
 
   .trending {
