@@ -71,16 +71,20 @@ MovieTrend/
 
 ### MovieList:
 ![Screenshot 2025-07-03 001730](https://github.com/user-attachments/assets/0a2a5408-5dac-4fb1-b124-2e2d9d6fb6c2)
+
 ![Screenshot 2025-07-03 001752](https://github.com/user-attachments/assets/efdfd392-22f2-445a-8009-5236e64bb9c1)
+
 ![Screenshot 2025-07-03 002400](https://github.com/user-attachments/assets/7ca4ae45-5d63-449a-9b1c-6b5ffb5ebdb9)
 
 
 ### User-Panel:
 ![Screenshot 2025-07-03 002100](https://github.com/user-attachments/assets/abf938d4-daca-492f-84ae-38c76847e3c5)
+
 ![Screenshot 2025-07-03 002232](https://github.com/user-attachments/assets/a0501a98-5df9-48df-b560-d03bdc47f67c)
 
 ### Login & Registration:
 ![Screenshot 2025-07-03 002319](https://github.com/user-attachments/assets/55194e4a-955f-46a5-9211-2dfca4cc61f2)
+
 ![Screenshot 2025-07-03 002327](https://github.com/user-attachments/assets/5232b07c-02a4-49d2-a85f-eac1923242fe)
 
 
