@@ -7,7 +7,7 @@ A modern React-based movie discovery application that allows users to explore tr
 ### Core Functionality
 - **Movie Discovery**: Browse trending, popular, and top-rated movies
 - **Advanced Search**: Search movies with filters (genre, year, rating)
-- **Movie Details**: Comprehensive movie information including cast, crew, trailers, and reviews
+- **Movie Details**: Comprehensive movie information including trailers, and ratings
 - **User Authentication**: Secure login/signup system with Appwrite
 - **Favorites Management**: Save and manage your favorite movies
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
@@ -67,13 +67,21 @@ MovieTrend/
 └── README.md            # Project documentation
 ```
 ### Homepage:
-![image](https://github.com/user-attachments/assets/82940baf-21b3-479a-8eca-1d41d3b2f37d)
+![Screenshot 2025-07-03 001719](https://github.com/user-attachments/assets/78f969a6-a4b5-499d-b912-a10856286727)
 
 ### MovieList:
-![image](https://github.com/user-attachments/assets/11e6bb20-9659-4e73-9066-d600ce58e8a2)
+![Screenshot 2025-07-03 001730](https://github.com/user-attachments/assets/0a2a5408-5dac-4fb1-b124-2e2d9d6fb6c2)
+![Screenshot 2025-07-03 001752](https://github.com/user-attachments/assets/efdfd392-22f2-445a-8009-5236e64bb9c1)
+![Screenshot 2025-07-03 002400](https://github.com/user-attachments/assets/7ca4ae45-5d63-449a-9b1c-6b5ffb5ebdb9)
+
 
 ### User-Panel:
-![image](https://github.com/user-attachments/assets/21aa8092-a3f8-4e1b-a347-36be13b2bf42)
+![Screenshot 2025-07-03 002100](https://github.com/user-attachments/assets/abf938d4-daca-492f-84ae-38c76847e3c5)
+![Screenshot 2025-07-03 002232](https://github.com/user-attachments/assets/a0501a98-5df9-48df-b560-d03bdc47f67c)
+
+### Login & Registration:
+![Screenshot 2025-07-03 002319](https://github.com/user-attachments/assets/55194e4a-955f-46a5-9211-2dfca4cc61f2)
+![Screenshot 2025-07-03 002327](https://github.com/user-attachments/assets/5232b07c-02a4-49d2-a85f-eac1923242fe)
 
 
 
