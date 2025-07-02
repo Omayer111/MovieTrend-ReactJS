@@ -24,7 +24,7 @@ const languages = [
 
 const years = Array.from({ length: 2025 - 1970 }, (_, i) => 2024 - i);
 
-const Filter = ({ onFilter, load }) => {
+const Filter = ({ onFilter }) => {
   const [genre, setGenre] = useState("");
   const [year, setYear] = useState("");
   const [language, setLanguage] = useState("");
@@ -46,7 +46,6 @@ const Filter = ({ onFilter, load }) => {
     setLanguage("");
     setMinRating("");
     onFilter({});
-    load(true); // Reset loading state to true
   };
 
   return (

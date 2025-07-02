@@ -129,7 +129,7 @@ const Home = () => {
         ) : (
           <>
             <Trending trending={trending} />
-            <Filter onFilter={handleFilter} load={setLoading}/>
+            <Filter onFilter={handleFilter} />
             <MovieList movieData={movieData} />
             <Pagination page={page} setPage={setPage} />
           </>
